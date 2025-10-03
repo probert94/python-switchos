@@ -11,8 +11,8 @@ class SystemEndpoint(SwitchOSEndpoint):
     """Represents the endpoint with system information."""
 
     # General
-    addressAquistion: AddressAquistion = field(metadata={"name": ["iptp", "i0a"], "type": "option", "options": AddressAquistion})
-    staticIP: str = field(metadata={"name": ["ip", "i09"], "type": "ip"})
+    address_aquistion: AddressAquistion = field(metadata={"name": ["iptp", "i0a"], "type": "option", "options": AddressAquistion})
+    static_ip: str = field(metadata={"name": ["ip", "i09"], "type": "ip"})
     ip: str = field(metadata={"name": ["cip", "i02"], "type": "ip"})
     identity: str = field(metadata={"name": ["id", "i05"], "type": "str"})
     serial: str = field(metadata={"name": ["sid", "i04"], "type": "str"})
@@ -23,11 +23,11 @@ class SystemEndpoint(SwitchOSEndpoint):
     uptime: int = field(metadata={"name": ["upt", "i01"], "type": "int"}, default=None)
 
     # Health
-    cpuTemp: int = field(metadata={"name": ["temp", "i22"], "type": "int"}, default=None)
-    psu1Current: int = field(metadata={"name": ["p1c", "i16"], "type": "int"}, default=None)
-    psu1Voltage: int = field(metadata={"name": ["p1v", "i15"], "type": "int", "scale": 100}, default=None)
-    psu2Current: int = field(metadata={"name": ["p2c", "i1f"], "type": "int"}, default=None)
-    psu2Voltage: int = field(metadata={"name": ["p2v", "i1e"], "type": "int", "scale": 100}, default=None)
-    psu1Power: int = field(metadata={"name": ["p1p"], "type": "int", "scale": 10}, default=None)
-    psu2Power: int = field(metadata={"name": ["p2p"], "type": "int", "scale": 10}, default=None)
+    cpu_temp: int = field(metadata={"name": ["temp", "i22"], "type": "int"}, default=None)
+    psu1_current: int = field(metadata={"name": ["p1c", "i16"], "type": "int"}, default=None)
+    psu1_voltage: int = field(metadata={"name": ["p1v", "i15"], "type": "int", "scale": 100}, default=None)
+    psu2_current: int = field(metadata={"name": ["p2c", "i1f"], "type": "int"}, default=None)
+    psu2_voltage: int = field(metadata={"name": ["p2v", "i1e"], "type": "int", "scale": 100}, default=None)
+    psu1_power: int = field(metadata={"name": ["p1p"], "type": "int", "scale": 10}, default=None)
+    psu2_power: int = field(metadata={"name": ["p2p"], "type": "int", "scale": 10}, default=None)
     power_consumption: int = field(metadata={"name": ["i26"], "type": "int", "scale": 10}, default=None)
