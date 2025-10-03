@@ -1,6 +1,6 @@
 [project]
 name = "python-switchos"
-version = "0.0.6"
+version = "0.0.7"
 description = "Python library to interact with MikroTik SwitchOS and SwitchOS Lite"
 authors = [
   { name = "Robert Pattis" },
