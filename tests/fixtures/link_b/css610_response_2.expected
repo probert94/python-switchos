@@ -1,0 +1,12 @@
+{
+    "enabled": [True, True, False, True, True, True, True, True, True, True],
+    "name": ["Port1", "Port2", "Port3", "Port4", "Port5", "Port6", "Port7", "Port8", "SFP1", "SFP2"],
+    "link_state": ["no link", "no link", "no link", "no link", "no link", "no link", "no link", "link on", "link on", "link on"],
+    "auto_negotiation": [True, True, True, True, True, True, True, True, True, True],
+    "speed": [None, None, None, None, None, None, None, "1G", "10G", "10G"],
+    "man_speed": ["10M", "10M", "10M", "10M", "10M", "10M", "10M", "10M", "10M", "10M"],
+    "full_duplex": [False, False, False, False, False, False, False, True, True, True],
+    "man_full_duplex": [True, True, True, True, True, True, True, True, True, True],
+    "flow_control_rx": [False, False, False, False, False, False, False, False, False, False],
+    "flow_control_tx": [False, False, False, False, False, False, False, False, False, False]
+}

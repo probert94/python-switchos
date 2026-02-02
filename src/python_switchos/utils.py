@@ -12,7 +12,7 @@ def hex_to_bool_list(value: int, length: int = 24) -> List[bool]:
     Returns:
         List of booleans of the specified length.
     """
-    return [c == "1" for c in f"{value:0{length}b}"]
+    return [c == "1" for c in f"{value:0{length}b}"][::-1]
 
 def hex_to_str(value: str) -> str:
     """Converts a hex-encoded string to a UTF-8 decoded string.
@@ -23,7 +23,7 @@ def hex_to_str(value: str) -> str:
     Returns:
         The UTF-8 decoded string.
     """
-    return bytes.fromhex(value).decode()
+    return bytes.fromhex(value).decode().rstrip("\x00")
 
 def hex_to_option(value: int, type: Type) -> str | None:
     """Converts an integer into an option of a given Literal type.

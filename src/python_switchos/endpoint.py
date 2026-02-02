@@ -36,6 +36,14 @@ def readDataclass(cls: Type[T], data: str) -> T:
             case "bool":
                 value = hex_to_bool_list(value, portCount)
             case "int":
+                if metadata.get("signed") and metadata.get("bits"):
+                    bits = metadata["bits"]
+                    half = 1 << (bits - 1)
+                    full = 1 << bits
+                    if isinstance(value, list):
+                        value = [v - full if v >= half else v for v in cast(List[int], value)]
+                    elif value >= half:
+                        value = value - full
                 if isinstance(metadata.get("scale"), (int, float)):
                     if isinstance(value, list):
                         value = list(map(lambda v: v / metadata.get("scale"), cast(List[int], value)))
@@ -51,6 +59,18 @@ def readDataclass(cls: Type[T], data: str) -> T:
                     value = list(map(lambda v: hex_to_option(v, metadata.get("options")), cast(List[int], value)))
                 else:
                     value = hex_to_option(value, metadata.get("options"))
+            case "bitshift_option":
+                options = metadata.get("options")
+                pair_id = metadata.get("pair")
+                pair_value = jsonData.get(pair_id, 0) if pair_id else 0
+                result = []
+                v1, v2 = value, pair_value
+                for _ in range(portCount):
+                    idx = (v1 & 1) | ((v2 & 1) << 1)
+                    result.append(options[idx] if idx < len(options) else None)
+                    v1 >>= 1
+                    v2 >>= 1
+                value = result
             case "mac":
                 value = hex_to_mac(value)
             case "ip":

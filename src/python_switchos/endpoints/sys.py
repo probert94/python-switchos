@@ -2,8 +2,8 @@ from dataclasses import dataclass, field
 from typing import Literal
 from python_switchos.endpoint import SwitchOSEndpoint, endpoint
 
-# Address aquistion options matching the API’s integer order
-AddressAquistion = Literal["DHCP_FALLBACK", "STATIC", "DHCP"]
+# Address acquisition options matching the API's integer order
+AddressAcquisition = Literal["DHCP_FALLBACK", "STATIC", "DHCP"]
 
 @endpoint("sys.b")
 @dataclass
@@ -11,7 +11,7 @@ class SystemEndpoint(SwitchOSEndpoint):
     """Represents the endpoint with system information."""
 
     # General
-    address_aquistion: AddressAquistion = field(metadata={"name": ["iptp", "i0a"], "type": "option", "options": AddressAquistion})
+    address_acquisition: AddressAcquisition = field(metadata={"name": ["iptp", "i0a"], "type": "option", "options": AddressAcquisition})
     static_ip: str = field(metadata={"name": ["ip", "i09"], "type": "ip"})
     ip: str = field(metadata={"name": ["cip", "i02"], "type": "ip"})
     identity: str = field(metadata={"name": ["id", "i05"], "type": "str"})
@@ -23,7 +23,7 @@ class SystemEndpoint(SwitchOSEndpoint):
     uptime: int = field(metadata={"name": ["upt", "i01"], "type": "int"}, default=None)
 
     # Health
-    cpu_temp: int = field(metadata={"name": ["temp", "i22"], "type": "int"}, default=None)
+    cpu_temp: int = field(metadata={"name": ["temp", "i22"], "type": "int", "signed": True, "bits": 16}, default=None)
     psu1_current: int = field(metadata={"name": ["p1c", "i16"], "type": "int"}, default=None)
     psu1_voltage: int = field(metadata={"name": ["p1v", "i15"], "type": "int", "scale": 100}, default=None)
     psu2_current: int = field(metadata={"name": ["p2c", "i1f"], "type": "int"}, default=None)

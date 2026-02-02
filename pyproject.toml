@@ -21,6 +21,11 @@ dependencies = [
 [project.optional-dependencies]
 aiohttp = ["aiohttp >= 3.12"]
 httpx = ["httpx >= 0.28"]
+dev = ["pytest>=8.0", "pytest-asyncio>=0.25"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
 [project.urls]
 Homepage = "https://github.com/probert94/python-switchos"
 [build-system]
