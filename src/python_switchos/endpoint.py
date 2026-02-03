@@ -1,6 +1,6 @@
 from dataclasses import fields, is_dataclass
 from typing import ClassVar, Literal, cast, List, Type, TypeVar
-from python_switchos.utils import hex_to_bool_list, hex_to_ip, hex_to_mac, hex_to_option, hex_to_str, str_to_json
+from python_switchos.utils import hex_to_bool_list, hex_to_ip, hex_to_mac, hex_to_option, hex_to_str, process_int, str_to_json
 
 def endpoint(path: str):
     """Decorator to add an endpoint path to a class."""
@@ -36,19 +36,7 @@ def readDataclass(cls: Type[T], data: str) -> T:
             case "bool":
                 value = hex_to_bool_list(value, portCount)
             case "int":
-                if metadata.get("signed") and metadata.get("bits"):
-                    bits = metadata["bits"]
-                    half = 1 << (bits - 1)
-                    full = 1 << bits
-                    if isinstance(value, list):
-                        value = [v - full if v >= half else v for v in cast(List[int], value)]
-                    elif value >= half:
-                        value = value - full
-                if isinstance(metadata.get("scale"), (int, float)):
-                    if isinstance(value, list):
-                        value = list(map(lambda v: v / metadata.get("scale"), cast(List[int], value)))
-                    else:
-                        value = value / metadata.get("scale")
+                value = process_int(value, metadata.get("signed"), metadata.get("bits"), metadata.get("scale"))
             case "str":
                 if isinstance(value, list):
                     value = list(map(hex_to_str, cast(List[str], value)))
@@ -59,18 +47,6 @@ def readDataclass(cls: Type[T], data: str) -> T:
                     value = list(map(lambda v: hex_to_option(v, metadata.get("options")), cast(List[int], value)))
                 else:
                     value = hex_to_option(value, metadata.get("options"))
-            case "bitshift_option":
-                options = metadata.get("options")
-                pair_id = metadata.get("pair")
-                pair_value = jsonData.get(pair_id, 0) if pair_id else 0
-                result = []
-                v1, v2 = value, pair_value
-                for _ in range(portCount):
-                    idx = (v1 & 1) | ((v2 & 1) << 1)
-                    result.append(options[idx] if idx < len(options) else None)
-                    v1 >>= 1
-                    v2 >>= 1
-                value = result
             case "mac":
                 value = hex_to_mac(value)
             case "ip":

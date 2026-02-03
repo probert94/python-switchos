@@ -9,7 +9,7 @@ import pytest
 from dataclasses import asdict
 from typing import get_args
 from python_switchos.endpoint import readDataclass
-from python_switchos.endpoints.link import LinkEndpoint, LinkState, Speed
+from python_switchos.endpoints.link import LinkEndpoint, Speed
 
 
 class TestLinkEndpointParsing:
@@ -48,11 +48,10 @@ class TestLinkEndpointParsing:
         valid = set(get_args(Speed)) | {None}
         assert all(v in valid for v in result.man_speed)
 
-    def test_link_state_values_are_valid(self, link_response):
+    def test_link_state_is_bool_list(self, link_response):
         result = readDataclass(LinkEndpoint, link_response)
         assert isinstance(result.link_state, list)
-        valid = set(get_args(LinkState))
-        assert all(v in valid for v in result.link_state)
+        assert all(isinstance(v, bool) for v in result.link_state)
 
     def test_full_duplex_is_bool_list(self, link_response):
         result = readDataclass(LinkEndpoint, link_response)

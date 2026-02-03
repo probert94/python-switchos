@@ -57,7 +57,7 @@ class TestPoEEndpointStructure:
         assert len(fields(PoEEndpoint)) == 9
 
     def test_type_values_are_valid(self):
-        valid_types = {"bool", "int", "str", "option", "mac", "ip", "bitshift_option"}
+        valid_types = {"bool", "int", "str", "option", "mac", "ip"}
         for f in fields(PoEEndpoint):
             assert f.metadata["type"] in valid_types, (
                 f"Field {f.name} has unexpected type '{f.metadata['type']}'"

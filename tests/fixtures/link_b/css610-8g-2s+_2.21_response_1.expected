@@ -1,7 +1,8 @@
 {
     "enabled": [True, True, True, True, True, True, True, True, True, True],
     "name": ["Port1", "Port2", "Port3", "Port4", "Port5", "Port6", "Port7", "Port8", "SFP1+", "SFP2+"],
-    "link_state": ["link on", "link on", "link on", "link on", "link on", "no link", "no link", "no link", "no link", "link on"],
+    "link_state": [True, True, True, True, True, False, False, False, False, True],
+    "link_paused": [False, False, False, False, False, False, False, False, False, False],
     "auto_negotiation": [True, True, True, True, True, True, True, True, True, True],
     "speed": ["100M", "100M", "100M", "100M", "10M", "10M", "10M", "10M", "1G", "10M"],
     "man_speed": ["1G", "1G", "1G", "1G", "1G", "1G", "1G", "1G", "1G", "1G"],
