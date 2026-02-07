@@ -29,7 +29,7 @@ from python_switchos.endpoints.vlan import VlanEndpoint, VlanEntry
 
 
 # Path to analysis data
-ANALYSIS_PATH = Path("/ssd/source/mikrotik/analysis/all_analyses.json")
+ANALYSIS_PATH = Path(__file__).parent / "all_analyses.json"
 
 # Mapping of primary endpoint paths to their classes
 # Note: Some endpoints use entry classes for list parsing
