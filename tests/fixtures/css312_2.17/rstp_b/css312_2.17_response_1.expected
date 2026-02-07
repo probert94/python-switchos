@@ -1,0 +1,8 @@
+{
+    "rstp": [True, True, True, True, True, True, True, True, True, True, True, True],
+    "mode": ['STP', 'STP', 'STP', 'STP', 'STP', 'STP', 'STP', 'STP', 'STP', 'STP', 'STP', 'STP'],
+    "role": ['disabled', 'disabled', 'disabled', 'disabled', 'disabled', 'disabled', 'disabled', 'disabled', 'disabled', 'disabled', 'disabled', 'disabled'],
+    "root_path_cost": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    "type": ['shared', 'shared', 'shared', 'shared', 'shared', 'shared', 'shared', 'shared', 'shared', 'shared', 'shared', 'shared'],
+    "state": ['discarding', 'discarding', 'discarding', 'discarding', 'discarding', 'discarding', 'discarding', 'discarding', 'discarding', 'discarding', 'discarding', 'discarding'],
+}

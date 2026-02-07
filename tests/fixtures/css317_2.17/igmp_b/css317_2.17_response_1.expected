@@ -1,0 +1,7 @@
+[
+    {
+        "group_address": '192.168.1.1',
+        "vlan": 0,
+        "member_ports": [True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True],
+    },
+]
