@@ -1,9 +1,8 @@
-from typing import Any, Type, TypeVar
-from aiohttp import ClientSession
+from typing import Type, TypeVar
 from urllib.parse import urljoin
 
 from python_switchos.endpoint import SwitchOSEndpoint, readDataclass
-from python_switchos.http import HttpClient, createHttpClient
+from python_switchos.http import HttpClient
 
 T = TypeVar("T", bound=SwitchOSEndpoint)
 

@@ -34,7 +34,7 @@ Example with httpx
 async def main(host, user, password):
     auth = DigestAuth(user, password)
     async with AsyncClient(auth=auth) as session:
-        client = Client(createHttpClient(session), host)
+        client = Client(create_httpx_client(session), host)
         print(await client.fetch(SystemEndpoint))
 ```
 
@@ -44,7 +44,7 @@ Example with aiohttp
 async def main(host, user, password):
     digest_auth = DigestAuthMiddleware(login=user, password=password)
     async with ClientSession(middlewares=(digest_auth, )) as session:
-        client = Client(createHttpClient(session), host)
+        client = Client(create_aiohttp_client(session), host)
         return await client.fetch(SystemEndpoint)
 ```
 

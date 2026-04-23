@@ -1,4 +1,3 @@
-
 from abc import ABC, abstractmethod
 
 class HttpResponse(ABC):
@@ -94,9 +93,10 @@ try:
     class HttpxClient(HttpClient):
         client: httpx.AsyncClient
 
-        def __init__(self, client: httpx.AsyncClient):
+        def __init__(self, client: httpx.AsyncClient, auth: httpx.DigestAuth | httpx.UseClientDefault):
             assert isinstance(client, httpx.AsyncClient)
             self.client = client
+            self.auth = auth
 
         async def __aenter__(self):
             return await self.client.__aenter__()
@@ -105,15 +105,18 @@ try:
             return await self.client.__aexit__(exc_type, exc_val, exc_tb)
         
         async def get(self, url) -> HttpResponse:
-            response = await self.client.get(url)
+            response = await self.client.get(url, auth=self.auth)
             return HttpxResponse(response)
             
 except ImportError:
     HttpxClient = None
 
-def createHttpClient(client) -> HttpClient:
-    if AioHttpClient is not None and isinstance(client, aiohttp.ClientSession):
-        return AioHttpClient(client)
-    if HttpxClient is not None and isinstance(client, httpx.AsyncClient):
-        return HttpxClient(client)
-    assert False, "Unable to create HttpClient. Make sure the necessary library is installed."
+def create_aiohttp_client(client) -> HttpClient:
+    assert AioHttpClient is not None and isinstance(client, aiohttp.ClientSession)
+    return AioHttpClient(client)
+
+def create_httpx_client(client, auth=None) -> HttpClient:
+    assert HttpxClient is not None and isinstance(client, httpx.AsyncClient)
+    if auth is None:
+        auth = httpx.USE_CLIENT_DEFAULT
+    return HttpxClient(client, auth)
