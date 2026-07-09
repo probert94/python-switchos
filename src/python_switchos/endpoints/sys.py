@@ -12,8 +12,8 @@ class SystemEndpoint(SwitchOSEndpoint):
 
     # General
     address_acquisition: AddressAcquisition = field(metadata={"name": ["iptp", "i0a"], "type": "option", "options": AddressAcquisition})
-    static_ip: str = field(metadata={"name": ["ip", "i09"], "type": "ip"})
-    ip: str = field(metadata={"name": ["cip", "i02"], "type": "ip"})
+    static_ip: str = field(metadata={"name": ["ip", "sip", "i09"], "type": "ip"})   # "sip" in CSS106, "ip" in all other SwOS versions
+    ip: str = field(metadata={"name": ["cip", "ip", "i02"], "type": "ip"})          # "ip" in CSS106, "cip" in all other SwOS versions
     identity: str = field(metadata={"name": ["id", "i05"], "type": "str"})
     serial: str = field(metadata={"name": ["sid", "i04"], "type": "str"})
     mac: str = field(metadata={"name": ["mac", "i03"], "type": "mac"})
