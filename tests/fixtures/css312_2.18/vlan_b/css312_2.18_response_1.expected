@@ -1,0 +1,7 @@
+[
+    {
+        "vlan_id": 0,
+        "igmp_snooping": True,
+        "members": [True, True, True, True, True, True, True, True, True, True, True, True],
+    },
+]

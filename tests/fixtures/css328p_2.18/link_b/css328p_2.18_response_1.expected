@@ -1,0 +1,13 @@
+{
+    "enabled": [True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True],
+    "name": ['Port1', 'Port2', 'Port3', 'Port4', 'Port5', 'Port6', 'Port7', 'Port8', 'Port9', 'Port10', 'Port11', 'Port12', 'Port13', 'Port14', 'Port15', 'Port16', 'Port17', 'Port18', 'Port19', 'Port20', 'Port21', 'Port22', 'Port23', 'Port24', 'Port25', 'Port26', 'SFP1+', 'SFP2+'],
+    "link_state": [True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True],
+    "link_paused": [True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True],
+    "auto_negotiation": [True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True],
+    "speed": ['10M', '10M', '10M', '10M', '10M', '10M', '10M', '10M', '10M', '10M', '10M', '10M', '10M', '10M', '10M', '10M', '10M', '10M', '10M', '10M', '10M', '10M', '10M', '10M', '10M', '10M', '10M', '10M'],
+    "man_speed": ['10M', '10M', '10M', '10M', '10M', '10M', '10M', '10M', '10M', '10M', '10M', '10M', '10M', '10M', '10M', '10M', '10M', '10M', '10M', '10M', '10M', '10M', '10M', '10M', '10M', '10M', '10M', '10M'],
+    "full_duplex": [True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True],
+    "man_full_duplex": [True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True],
+    "flow_control_rx": [True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True],
+    "flow_control_tx": [True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True],
+}
