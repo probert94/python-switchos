@@ -2,28 +2,36 @@ import re
 import demjson3
 from typing import List, Type, get_args
 
-def hex_to_bool_list(value: int, length: int = 24) -> List[bool]:
+def hex_to_bool_list(value: int | List[int], length: int = 24) -> List[bool]:
     """Converts an integer into a list of booleans.
 
     Args:
-        value: The integer to convert.
+        value: The integer to convert. For more than 32 ports (SwOS only) the wire
+            value is an array of two 32-bit numbers ``[high, low]``, with ports 0-31
+            in ``low`` and ports 32+ in ``high``.
         length: Number of bits to represent (pads with leading zeros if needed).
 
     Returns:
         List of booleans of the specified length.
     """
+    if isinstance(value, list):
+        high, low = value
+        value = (high << 32) | low
     return [c == "1" for c in f"{value:0{length}b}"][::-1]
 
 def hex_to_str(value: str) -> str:
-    """Converts a hex-encoded string to a UTF-8 decoded string.
+    """Converts a hex-encoded string to a decoded string.
 
     Args:
         value: Hex string representing bytes.
 
     Returns:
-        The UTF-8 decoded string.
+        The decoded string, truncated at the first NUL byte.
     """
-    return bytes.fromhex(value).decode().rstrip("\x00")
+    raw = bytes.fromhex(value).split(b"\x00", 1)[0]
+    # SwOS Lite encodes non-ASCII characters as raw bytes (charCodeAt & 0xFF)
+    # rather than UTF-8 sequences, so a strict UTF-8 decode can raise here.
+    return raw.decode("utf-8", errors="replace")
 
 def hex_to_option(value: int, type: Type) -> str | None:
     """Converts an integer into an option of a given Literal type.
@@ -37,7 +45,9 @@ def hex_to_option(value: int, type: Type) -> str | None:
     """
     options = get_args(type)
     idx = value
-    return None if idx >= len(options) else options[idx]
+    # Negative indices must not silently wrap around to the end of the list
+    # (Python list semantics), they are just as out-of-range as idx >= len(options).
+    return None if idx < 0 or idx >= len(options) else options[idx]
 
 def hex_to_mac(value: str) -> str:
     """Converts a hex string to a colon-separated MAC address.
@@ -56,13 +66,15 @@ def process_int(value: int | List[int], signed: bool = False, bits: int = None, 
     Args:
         value: The integer or list of integers to process.
         signed: Whether to treat the value as signed.
-        bits: Number of bits for signed conversion.
+        bits: Number of bits for signed conversion (8, 16 or 32). Defaults to 16,
+            matching the device's own default width for signed properties.
         scale: Divisor for scaling the value.
 
     Returns:
         The processed value(s).
     """
-    if signed and bits:
+    if signed:
+        bits = bits or 16
         half = 1 << (bits - 1)
         full = 1 << bits
         if isinstance(value, list):
