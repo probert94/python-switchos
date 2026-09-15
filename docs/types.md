@@ -43,7 +43,14 @@ The index selects a display string from the property's state list. Examples: *Li
 
 An integer index into a fixed option list (documented per property). Per-port enums are
 transferred as an **array** with one integer per port. Encode: the index; Decode: the index.
-Out-of-range/`-1` is treated as `0`.
+Out-of-range/`-1` is treated as `0` for writable/config enums.
+
+Read-only status enums can use an out-of-range index to mean "no valid value" instead
+(the UI then shows nothing rather than falling back to option 0). Example: negotiated
+*Speed* (`spd`) reports index `7` on a link-down port even though the option list only has
+7 entries (indices `0`–`6`) — the UI shows a blank field, not `10M` (option `0`). Decode
+out-of-range as `None`/empty in this case; see the `css610-8g-2s+_2.21_response_2` link.b
+fixture for a captured example.
 
 ## `uint` — unsigned number
 

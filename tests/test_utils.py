@@ -8,6 +8,7 @@ from python_switchos.utils import (
     hex_to_option,
     hex_to_mac,
     hex_to_ip,
+    process_int,
     str_to_json,
 )
 
@@ -48,6 +49,16 @@ class TestHexToBoolList:
         assert result[0] is True
         assert all(v is False for v in result[1:])
 
+    def test_high_low_array_more_than_32_ports(self):
+        """[high, low] arrays are used for >32 ports (e.g. css354, 60 ports).
+
+        Ports 0-31 come from low, ports 32+ from high."""
+        result = hex_to_bool_list([0x1, 0x1], 40)
+        assert result[0] is True
+        assert all(v is False for v in result[1:32])
+        assert result[32] is True
+        assert all(v is False for v in result[33:])
+
 
 # --- hex_to_str ---
 
@@ -62,6 +73,14 @@ class TestHexToStr:
     def test_ascii_characters(self):
         """'48656c6c6f' decodes to 'Hello'."""
         assert hex_to_str("48656c6c6f") == "Hello"
+
+    def test_stops_at_nul_byte(self):
+        """Decoding stops at the first 00 byte, ignoring anything after it."""
+        assert hex_to_str("506f727431004242") == "Port1"
+
+    def test_non_utf8_byte_does_not_raise(self):
+        """SwOS Lite may send raw non-UTF-8 bytes; decoding must not crash."""
+        hex_to_str("ff")
 
 
 # --- hex_to_option ---
@@ -78,6 +97,11 @@ class TestHexToOption:
     def test_out_of_range(self):
         TestLiteral = Literal["a", "b", "c"]
         assert hex_to_option(5, TestLiteral) is None
+
+    def test_negative_one(self):
+        """-1 must not silently wrap around to the last option (Python list semantics)."""
+        TestLiteral = Literal["a", "b", "c"]
+        assert hex_to_option(-1, TestLiteral) is None
 
     def test_middle_option(self):
         TestLiteral = Literal["a", "b", "c"]
@@ -108,6 +132,31 @@ class TestHexToIp:
 
     def test_zero(self):
         assert hex_to_ip(0) == "0.0.0.0"
+
+
+# --- process_int ---
+
+class TestProcessInt:
+    def test_signed_defaults_to_16_bits(self):
+        """Per the docs, signed properties default to a 16-bit width."""
+        assert process_int(0xFFFF, signed=True) == -1
+        assert process_int(0x8000, signed=True) == -32768
+
+    def test_signed_explicit_bits(self):
+        assert process_int(0xFF, signed=True, bits=8) == -1
+
+    def test_unsigned_positive_value(self):
+        assert process_int(0x7FFF, signed=True) == 0x7FFF
+
+    def test_scale(self):
+        assert process_int(100, scale=10) == 10
+
+    def test_signed_and_scale_combined(self):
+        """Signed conversion happens before scaling."""
+        assert process_int(0xFFFF, signed=True, scale=10) == -0.1
+
+    def test_list_of_values(self):
+        assert process_int([0xFFFF, 1], signed=True) == [-1, 1]
 
 
 # --- str_to_json ---
