@@ -56,6 +56,11 @@ This library targets MikroTik switches running **SwitchOS** or **SwitchOS Lite**
 
 Other models with SwitchOS or SwitchOS Lite may also work.
 
+## API Reference
+
+A reverse-engineered reference of MikroTik's undocumented HTTP API used by both
+SwOS and SwOS-Lite is maintained under [docs/README.md](docs/README.md).
+
 ## License
 
 MIT License
